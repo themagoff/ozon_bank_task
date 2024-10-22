@@ -21,17 +21,12 @@ def get_urls(breed: str, sub_breeds: list[str]) -> list[str]:
 def upload_photos(breed: str, folder: str) -> tuple:
     sub_breeds = get_sub_breeds(breed)
     urls = get_urls(breed, sub_breeds)
-    ya_client.create_folder(folder)
     for url in urls:
         part_name = url.split('/')
         name = '_'.join([part_name[-2], part_name[-1]])
         ya_client.upload_photos_to_yd(folder, url, name)
     time.sleep(3)
     return sub_breeds, ya_client.get_folder(folder).json()
-
-
-def delete_photos(folder: str, permanently: bool = True) -> None:
-    ya_client.delete_folder(folder, permanently)
 
 
 def get_random_breeds() -> list[str]:
